@@ -152,8 +152,8 @@ footer {
 }
 
 .participants-list {
-  list-style: disc;
-  margin: 6px 0 0 18px;
+  list-style: none; /* remove bullets */
+  margin: 6px 0 0 0;
   padding: 0;
   display: grid;
   gap: 4px;
@@ -170,6 +170,10 @@ footer {
   font-size: 0.85rem;
   line-height: 1.2;
   word-break: break-word;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
 
 .participants-list li:nth-child(odd) {
@@ -182,6 +186,35 @@ footer {
   font-style: italic;
   color: #777;
   padding: 2px 0;
+}
+
+.participants-list button.delete-participant {
+  background: #ffebee;
+  border: 1px solid #ffcdd2;
+  color: #c62828;
+  padding: 2px 6px 4px;
+  line-height: 1;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+  font-weight: bold;
+}
+
+.participants-list button.delete-participant:hover {
+  background: #ef5350;
+  color: #fff;
+}
+
+.participants-list button.delete-participant:active {
+  transform: scale(0.9);
+}
+
+.participant-email {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .participants-list::-webkit-scrollbar {
