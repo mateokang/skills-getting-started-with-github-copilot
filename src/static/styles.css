@@ -63,6 +63,8 @@ section h3 {
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #f9f9f9;
+  position: relative;
+  overflow: hidden;
 }
 
 .activity-card h4 {
@@ -141,4 +143,61 @@ footer {
   margin-top: 30px;
   padding: 20px;
   color: #666;
+}
+
+.participants {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed #ccc;
+}
+
+.participants-list {
+  list-style: disc;
+  margin: 6px 0 0 18px;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  max-height: 140px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.participants-list li {
+  background: #ffffff;
+  border: 1px solid #e3e6ef;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.participants-list li:nth-child(odd) {
+  background: #f5f7fb;
+}
+
+.participants-list li.empty {
+  background: transparent;
+  border: none;
+  font-style: italic;
+  color: #777;
+  padding: 2px 0;
+}
+
+.participants-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.participants-list::-webkit-scrollbar-track {
+  background: #f0f0f5;
+  border-radius: 10px;
+}
+
+.participants-list::-webkit-scrollbar-thumb {
+  background: #c3c7d6;
+  border-radius: 10px;
+}
+
+.participants-list::-webkit-scrollbar-thumb:hover {
+  background: #9aa0b3;
 }
