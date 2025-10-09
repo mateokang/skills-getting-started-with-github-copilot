@@ -10,26 +10,34 @@ document.addEventListener("DOMContentLoaded", () => {
       const response = await fetch("/activities");
       const activities = await response.json();
 
-      // Clear loading message
+      // Clear previous content
       activitiesList.innerHTML = "";
+      // Clear previous options except placeholder
+      activitySelect.querySelectorAll("option:not(:first-child)").forEach(o => o.remove());
 
-      // Populate activities list
       Object.entries(activities).forEach(([name, details]) => {
         const activityCard = document.createElement("div");
         activityCard.className = "activity-card";
 
         const spotsLeft = details.max_participants - details.participants.length;
+        const participantsHtml = details.participants.length
+          ? details.participants.map(p => `<li>${p}</li>`).join("")
+          : `<li class="empty">No participants yet</li>`;
 
         activityCard.innerHTML = `
           <h4>${name}</h4>
           <p>${details.description}</p>
           <p><strong>Schedule:</strong> ${details.schedule}</p>
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
+          <div class="participants">
+            <p><strong>Participants (${details.participants.length}/${details.max_participants}):</strong></p>
+            <ul class="participants-list">
+              ${participantsHtml}
+            </ul>
+          </div>
         `;
-
         activitiesList.appendChild(activityCard);
 
-        // Add option to select dropdown
         const option = document.createElement("option");
         option.value = name;
         option.textContent = name;
@@ -62,6 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
         messageDiv.textContent = result.message;
         messageDiv.className = "success";
         signupForm.reset();
+        fetchActivities(); // refresh cards & dropdown
       } else {
         messageDiv.textContent = result.detail || "An error occurred";
         messageDiv.className = "error";
