@@ -1,6 +1,10 @@
 {
   "name": "Python 3",
   "image": "mcr.microsoft.com/vscode/devcontainers/python:3.13",
+  // Persist workspace content across container rebuilds using a named volume.
+  // You can switch to a bind mount with: "source=${localWorkspaceFolder},type=bind,consistency=cached"
+  "workspaceMount": "source=devcontainer-workspace,target=/workspaces/${localWorkspaceFolderBasename},type=volume",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "forwardPorts": [8000],
   "postCreateCommand": "pip install -r requirements.txt",
   "customizations": {
