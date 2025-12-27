@@ -24,30 +24,75 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const spotsLeft = details.max_participants - details.participants.length;
 
-        // Build participants HTML (bulleted list or a note if none)
         const participants = Array.isArray(details.participants) ? details.participants : [];
-        let participantsHTML = `<p><strong>Participants:</strong></p>`;
+
+        // Clear any existing content and build the card using safe DOM APIs
+        activityCard.innerHTML = "";
+
+        // Title
+        const titleEl = document.createElement("h4");
+        titleEl.textContent = name;
+        activityCard.appendChild(titleEl);
+
+        // Description
+        const descP = document.createElement("p");
+        descP.textContent = details.description;
+        activityCard.appendChild(descP);
+
+        // Schedule
+        const scheduleP = document.createElement("p");
+        const scheduleStrong = document.createElement("strong");
+        scheduleStrong.textContent = "Schedule:";
+        scheduleP.appendChild(scheduleStrong);
+        scheduleP.appendChild(document.createTextNode(" " + details.schedule));
+        activityCard.appendChild(scheduleP);
+
+        // Availability
+        const availabilityP = document.createElement("p");
+        const availabilityStrong = document.createElement("strong");
+        availabilityStrong.textContent = "Availability:";
+        availabilityP.appendChild(availabilityStrong);
+        availabilityP.appendChild(document.createTextNode(" " + spotsLeft + " spots left"));
+        activityCard.appendChild(availabilityP);
+
+        // Participants header
+        const participantsHeaderP = document.createElement("p");
+        const participantsStrong = document.createElement("strong");
+        participantsStrong.textContent = "Participants:";
+        participantsHeaderP.appendChild(participantsStrong);
+        activityCard.appendChild(participantsHeaderP);
+
         if (participants.length > 0) {
-          participantsHTML += `<ul class="participants-list">`;
+          const ul = document.createElement("ul");
+          ul.className = "participants-list";
+
           participants.forEach((p) => {
-            participantsHTML += `<li>
-              <span class="participant-email">${p}</span>
-              <button class="delete-btn" title="Remove participant" aria-label="Remove ${p}" data-activity="${name}" data-email="${p}">🗑️</button>
-            </li>`;
+            const li = document.createElement("li");
+
+            const emailSpan = document.createElement("span");
+            emailSpan.className = "participant-email";
+            emailSpan.textContent = p;
+            li.appendChild(emailSpan);
+
+            const deleteBtn = document.createElement("button");
+            deleteBtn.className = "delete-btn";
+            deleteBtn.title = "Remove participant";
+            deleteBtn.setAttribute("aria-label", "Remove " + p);
+            deleteBtn.dataset.activity = name;
+            deleteBtn.dataset.email = p;
+            deleteBtn.textContent = "🗑️";
+            li.appendChild(deleteBtn);
+
+            ul.appendChild(li);
           });
-          participantsHTML += `</ul>`;
+
+          activityCard.appendChild(ul);
         } else {
-          participantsHTML += `<p class="no-participants">No participants yet.</p>`;
+          const noParticipantsP = document.createElement("p");
+          noParticipantsP.className = "no-participants";
+          noParticipantsP.textContent = "No participants yet.";
+          activityCard.appendChild(noParticipantsP);
         }
-
-        activityCard.innerHTML = `
-          <h4>${name}</h4>
-          <p>${details.description}</p>
-          <p><strong>Schedule:</strong> ${details.schedule}</p>
-          <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
-          ${participantsHTML}
-        `;
-
         activitiesList.appendChild(activityCard);
 
         // Add option to select dropdown
